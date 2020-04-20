@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Python学习（二）：安装配置VS Code | gxd-cc</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://gxd-cc.github.io/favicon.ico?v=1587403141357">
+<link rel="stylesheet" href="https://gxd-cc.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="软件下载与安装
+首先在官网下载visualstudio code。下载完毕后打开安装程序，按照提示进行安装（推荐在第二步的时候勾选“添加到PATH”选项）。
+
+软件配置
+下载python插件
+VS Code安装成功后打开软件，在左边操作列点..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://gxd-cc.github.io">
+        <img src="https://gxd-cc.github.io/images/avatar.png?v=1587403141357" class="site-logo">
+        <h1 class="site-title">gxd-cc</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      桃李春风一杯酒，江湖夜雨十年灯
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/gxd-cc" target="_blank">gxd-cc</a> | <a class="rss" href="https://gxd-cc.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Python学习（二）：安装配置VS Code</h2>
+            <div class="post-date">2020-04-21</div>
+            
+              <div class="feature-container" style="background-image: url('https://gxd-cc.github.io/post-images/python-xue-xi-er-an-zhuang-pei-zhi-vs-code.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h3 id="软件下载与安装">软件下载与安装</h3>
+<p>首先在<a href="https://code.visualstudio.com/">官网</a>下载<code>visualstudio code</code>。下载完毕后打开安装程序，按照提示进行安装（推荐在第二步的时候勾选“添加到PATH”选项）。<br>
+<img src="https://gxd-cc.github.io/post-images/1587400896841.png" alt="" loading="lazy"></p>
+<h3 id="软件配置">软件配置</h3>
+<h4 id="下载python插件">下载python插件</h4>
+<p><code>VS Code</code>安装成功后打开软件，在左边操作列点击<code>Extensions</code>图标，然后搜索<code>python</code>，安装搜索结果中第一个选项。<br>
+<img src="https://gxd-cc.github.io/post-images/1587401078379.png" alt="" loading="lazy"><br>
+安装结束后，点击<code>Reload Required</code>按钮，加载插件。</p>
+<h4 id="选择python解释器">选择python解释器</h4>
+<p>在<code>VS Code</code>页面按住<code>Ctrl + Shift + P</code>打开命令面板，输入<code>Select Interpreter</code>并敲击回车，在出现的选项中选择对应的python解释器（图片中出现了两个解释器，一个是我自己安装的，另外一个是<code>VS Code</code>中携带的）。<br>
+<img src="https://gxd-cc.github.io/post-images/1587401683166.png" alt="" loading="lazy"></p>
+<h4 id="第一个python程序">第一个python程序</h4>
+<p>点击操作列的第一个图标，回到<code>Explorer</code>，然后创建一个新的文件<code>hello.py</code>。<br>
+<img src="https://gxd-cc.github.io/post-images/1587401934500.png" alt="" loading="lazy"><br>
+然后打开<code>hello.py</code>文件输入一个最简单的语句<code>print('hello world')</code>用于在控制台输出<code>hello world</code>字符串，编写完毕后保存文件（快捷键<code>Ctrl + S</code>）。<br>
+接下来就是运行该<code>python</code>程序了：<br>
+（1）首先可以再文件中点击鼠标右键，点击<code>Run Python File in Terminal</code>，即在终端运行<code>python</code>文件<br>
+<img src="https://gxd-cc.github.io/post-images/1587402465576.png" alt="" loading="lazy"><br>
+（2）使用Ctrl + `快捷键打开<code>Terminal</code>，然后输入<code>python hello.py</code>指令运行该程序<br>
+<img src="https://gxd-cc.github.io/post-images/1587402639765.png" alt="" loading="lazy"><br>
+（3）点击页面左侧的<code>Run</code>图标，然后点击<code>Run and Debug</code>按钮，再弹出的输入框中搜索<code>Python File</code>，然后敲击回车，运行该程序<br>
+<img src="https://gxd-cc.github.io/post-images/1587402769511.png" alt="" loading="lazy"><br>
+在运行过程中，如果<code>VS Code</code>右下角弹出弹窗要求安装插件，直接点击<code>install</code>即可。</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://gxd-cc.github.io/post/python-xue-xi-yi-an-zhuang-python/">
+                  <h3 class="post-title">
+                    Python学习（一）：安装Python
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
