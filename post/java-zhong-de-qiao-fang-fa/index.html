@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java中的桥方法 | gxd-cc</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://gxd-cc.github.io/favicon.ico?v=1590300118779">
+<link rel="stylesheet" href="https://gxd-cc.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Java中的桥方法
+
+在说桥方法之前先来简单说一下泛型擦除。在Java中，泛型在运行时是不可见的，下面是一个简单的泛型类Parent：
+public class Parent&lt;T&gt; { 
+    public void doSo..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://gxd-cc.github.io">
+        <img src="https://gxd-cc.github.io/images/avatar.png?v=1590300118779" class="site-logo">
+        <h1 class="site-title">gxd-cc</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      桃李春风一杯酒，江湖夜雨十年灯
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/gxd-cc" target="_blank">gxd-cc</a> | <a class="rss" href="https://gxd-cc.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java中的桥方法</h2>
+            <div class="post-date">2020-05-24</div>
+            
+              <div class="feature-container" style="background-image: url('https://gxd-cc.github.io/post-images/java-zhong-de-qiao-fang-fa.png')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <h3 id="java中的桥方法">Java中的桥方法</h3>
+<hr>
+<p>在说桥方法之前先来简单说一下泛型擦除。在Java中，泛型在运行时是不可见的，下面是一个简单的泛型类<code>Parent</code>：</p>
+<pre><code class="language-java">public class Parent&lt;T&gt; { 
+    public void doSomeThing(T param) {        // do some thing    }
+}
+</code></pre>
+<p>在这个类被加载到Java虚拟机后，泛型<code>T</code>被擦除替换为<code>Object</code>：</p>
+<pre><code class="language-java">public class Parent { 
+    public void doSomeThing(Object param) {        // do some thing    }
+}
+</code></pre>
+<p>假如说<code>Parent</code>类存在一个子类<code>Sub</code>：</p>
+<pre><code class="language-java">public class Sub extends Parent&lt;String&gt; {    
+    public void doSomeThing(String param) {        // do some thing    }
+}
+</code></pre>
+<p>可以看到，因为泛型的缘故，子类在重写<code>doSomeThing</code>方法时，可以直接将参数替换为参数类型<code>String</code>。那么有意思的事情就来了，我们可以看到在父类中有一个方法<code>doSomeThing(Object param)</code>，子类中对应的重写方法为<code>doSomeThing(String param)</code>，仔细想一想子类中是不是还应该存在一个继承自父类的<code>doSomeThing(Object param)</code>方法？</p>
+<pre><code class="language-java">public class Sub extends Parent&lt;String&gt; {    
+    public void doSomeThing(String param) {        // do some thing    }
+    
+    public void doSomeThing(Object param) {        // do some thing    }
+}
+</code></pre>
+<p>显然在子类中这是两个方法（方法的参数类型不同），那么考虑下面的调用：</p>
+<pre><code class="language-java">Parent&lt;String&gt; obj = new Sub();
+obj.doSomeThing(&quot;test&quot;);
+</code></pre>
+<p>变量<code>obj</code>的声明类型是<code>Parent&lt;String&gt;</code>，并且在这个类型中只有一个方法<code>doSomeThing(Object param)</code>。虚拟机用<code>obj</code>这个引用调用这个方法时发现<code>obj</code>的实际类型是<code>Sub</code>，所以就回去调用<code>Sub</code>中的<code>doSomeThing(Object param)</code>，这个方法实际上就会作为桥方法，它的内部调用其实类似于：</p>
+<pre><code class="language-java">public void doSomeThing(Object param) {       
+    doSomeThing((String) param)
+}
+</code></pre>
+<p>为了验证这个想法，我们使用<code>javap</code>命令来调用<code>Sub.class</code>，结果如下：<br>
+<img src="https://gxd-cc.github.io/post-images/1590299817639.png" alt="" loading="lazy"><br>
+可以看到在<code>Sub</code>类中确实存在两个不同参的<code>doSomeThing</code>方法，并且调用流程也确实如上所说。</p>
+<p>那么，桥方法是专为了泛型提供服务的吗？我们知道在重写方法时可以缩小返回类型的范围（返回一个子类），那么当我们重写<code>Object</code>类中的<code>clone()</code>方法，并且将返回值类型设置为其它类型，在编译后会怎么样呢？</p>
+<pre><code class="language-java">public class Sub extends Parent&lt;String&gt; {    
+    public void doSomeThing(String param) {        // do some thing    }
+    
+    public void doSomeThing(Object param) {        // do some thing    }
+    
+    protected Sub clone() throws CloneNotSupportedException {  
+        return null;
+    }
+}
+</code></pre>
+<p>这个时候也会生成对应的桥方法，也就是说<code>Sub</code>类在编译后会类似于下面的形式：</p>
+<pre><code class="language-java">public class Sub extends Parent&lt;String&gt; {    
+    // some methods
+    
+    protected Sub clone() throws CloneNotSupportedException {  
+       // ...
+    }
+   
+   protected Object  clone() throws CloneNotSupportedException {  
+       // ...
+    }
+}
+</code></pre>
+<p>这个时候需要了解一个概念，在<code>Java</code>语法中会以方法签名（名称、参数）来判断方法是否重复，而在<code>Java</code>虚拟机中会将方法的返回类型也纳入判断范围，所以上面的代码在直接编写程序的时候会出现编译错误，但是<code>JVM</code>中是允许同名同参，不同返回类型的方法存在的。这两个方法也被说成“具有协变的返回类型”。<br>
+<img src="https://gxd-cc.github.io/post-images/1590299826571.png" alt="" loading="lazy"></p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://gxd-cc.github.io/post/python-xue-xi-er-an-zhuang-pei-zhi-vs-code/">
+                  <h3 class="post-title">
+                    Python学习（二）：安装配置VS Code
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
